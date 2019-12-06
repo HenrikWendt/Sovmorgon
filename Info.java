@@ -27,26 +27,26 @@ public class Info {
 
         Calendar calendar = Calendar.getInstance();
         int weeknumb = calendar.get(Calendar.WEEK_OF_YEAR);
-
-        weeknumb ++;
-
+       // weeknumb ++;
+        //Log.e("TEXT IS ",""+text);
         Format dateFormat = new SimpleDateFormat("EEE");
         String res = dateFormat.format(new Date());
 
-        Log.e("THE DAY IS: ",""+res);
+
         if (res.equals("Sun")){
             weeknumb ++;
 
 
         }
-
+        Log.e("STRING TEST ",""+cut+Integer.toString(weeknumb));
 
         try{
-
-
-            String week = text.substring(text.indexOf(Time(1)), text.indexOf(cut + weeknumb));
+            //+ Integer.toString(weeknumb)
+            Log.e("THE TIME IS ",""+Time(1));
+            String week = text.substring(text.indexOf(Time(1)), text.indexOf(Time(2)));
+            Log.e("THE TEXT IS ",""+week);
             String day = week.substring(week.indexOf(start)+1, week.indexOf(end));
-            String[] lines = day.split("\\r");
+           String[] lines = day.split("\\r");
 
 
 

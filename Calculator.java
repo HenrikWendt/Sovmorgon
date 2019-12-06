@@ -34,7 +34,7 @@ public class Calculator {
         for(int i = 0; i < strings.size(); i++) {
             try{
 
-                String requiredString = temp.substring(temp.indexOf(Time(1)) + 1, temp.indexOf(strings.get(i).toString()));
+                String requiredString = temp.substring(temp.indexOf(Time(1)) + 1, temp.indexOf(strings.get(i)));
                 int temp1;
                 temp1 = requiredString.length();
                 numbs.set(i,temp1);
@@ -53,29 +53,37 @@ public class Calculator {
         String EndString = "";
         ArrayList<String> EndInfo = new ArrayList<String>();
         Info info = new Info();
-
+        SizeFix Size = new SizeFix();
 
         if(numbs.get(0)==999999999){
 
-            for (int i = 0; i < 7; i++) {
+           // for (int i = 0; i < 7; i++) {
 
-                EndInfo.add("ERROR");
-            }
+             //   EndInfo.add("ERROR");
+           // }
 
-            EndInfo.add("Något gick fel");
-            EndInfo.add("ERROR");
-
-        }else if(numbs.get(0)>120000) {
-
+           // EndInfo.add("Något gick fel");
+            //EndInfo.add("ERROR");
             EndString = "Ja det har du, du är ledig imorgon!";
             EndInfo.add("SOVA");
             EndInfo.add("HEMMA");
             EndInfo.add("TDDC50VA");
-
-                EndInfo.add("-");
-
             EndInfo.add(EndString);
-            EndInfo.add("Borås?");
+            EndInfo.add("");
+            EndInfo.add("0");
+
+
+
+
+        }else if(numbs.get(0)>120000) {
+
+            EndString = "Ja det har du, du är ledig imorgon!"; 
+            EndInfo.add("SOVA");
+            EndInfo.add("HEMMA");
+            EndInfo.add("TDDC50VA");
+            EndInfo.add(EndString);
+            EndInfo.add("");
+            EndInfo.add("0");
 
         }else if(numbs.get(0) == l1) {
             EndString="Du har ingen sovmorgon...";
@@ -86,6 +94,9 @@ public class Calculator {
            EndInfo.add(EndString);
            EndInfo.add("08:15");
 
+            EndInfo = Size.SizeFix(EndInfo);
+           EndInfo.set(EndInfo.size(),"7");
+
            Log.e("EndINFO ","LOOK  "+EndInfo);
 
         }else if (numbs.get(0) == l2){
@@ -95,12 +106,19 @@ public class Calculator {
             EndInfo.add(EndString);
             EndInfo.add("10:15");
 
+           EndInfo = Size.SizeFix(EndInfo);
+            EndInfo.add(EndInfo.size(),"9");
+
+
         }else if(numbs.get(0) == l3){
             EndString="Ja du har sovmorgon!";
 
             EndInfo = info.Info(temp,">13:15 - 15:00</td>","        </tr>");
             EndInfo.add(EndString);
             EndInfo.add("13:15");
+
+            EndInfo = Size.SizeFix(EndInfo);
+            EndInfo.set(EndInfo.size(),"12");
 
         }else if(numbs.get(0) == l4) {
             EndString="Ja du har sovmorgon!";
@@ -109,12 +127,17 @@ public class Calculator {
             EndInfo.add(EndString);
             EndInfo.add("15:15");
 
+            EndInfo = Size.SizeFix(EndInfo);
+            EndInfo.set(EndInfo.size(),"14");
+
 
 
         }
 
         Log.e("TESTAR","TESTAR "+numbs.get(0)+"----"+numbs.get(1)+"----"+numbs.get(2)+"----"+numbs.get(3)+"----");
         //Log.e("INFO","LOOK HERE "+strings.get(0));
+
+
 
 
         return EndInfo;

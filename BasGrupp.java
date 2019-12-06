@@ -14,10 +14,10 @@ public class BasGrupp {
         String EndString = "";
 
 
-        basgrupp = info.get(4);
-        info.set(4,basgrupp);
+        basgrupp = info.get(3);
+       // info.set(4,basgrupp);
 
-        if(basgrupp.equals("Grupp 2")||basgrupp.equals("Grupp 3")||basgrupp.equals("Grupp 4")) {
+        if(basgrupp.equals("Grupp 2")||basgrupp.equals("Grupp 3")||basgrupp.equals("Grupp 1")) {
 
             EndString="Ja det har du, du är ledig imorgon!";
             EndInfo.add("SOVA");
@@ -29,7 +29,7 @@ public class BasGrupp {
             }
 
             EndInfo.add(EndString);
-            EndInfo.add("Borås?");
+            EndInfo.add(" ");
 
             return EndInfo;
         }else {
