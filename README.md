@@ -1,5 +1,5 @@
 # SovmorgonApp
-Denna app kollar om du har sovmorgon eller inte nästa dag, och ger ding information så som vilken sal,kurskod samt tid du har nästa
+Denna app kollar om du har sovmorgon eller inte nästa dag, och ger dig information så som vilken sal,kurskod samt tid du har nästa
 event i din kalender. Om du inte har ledig hela nästa dag kommer den även att ge dig möjligheten att sätta ett alarm till dig 1 timme 
 innan du börjar. 
 
