@@ -2,6 +2,8 @@ package com.example.zleeper;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.constraint.solver.widgets.ConstraintHorizontalLayout;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -10,6 +12,7 @@ public class Display extends LinearLayout{
 
 
     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+
 
 
 
@@ -24,6 +27,7 @@ public class Display extends LinearLayout{
         setOrientation(VERTICAL);
         setLayoutParams(params);
         setBackgroundColor(Color.parseColor("#2196F3"));
+
     }
 }
 

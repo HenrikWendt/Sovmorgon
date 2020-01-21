@@ -16,11 +16,14 @@ import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -57,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
     WebSettings webSettings;
     String URL;
     TextView currentLink;
-
-
+    ToggleButton toggle1;
+    ToggleButton toggle2;
+    LinearLayout.LayoutParams params;
     EditText httpString;
     Button save;
 
@@ -81,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
         knapp.setBackgroundColor(Color.parseColor("#2196F3"));
         knapp.setTextSize(40);
         knapp.setTextColor(Color.WHITE);
+
+
+
 
 
         mapButton = new Button(this);
@@ -112,28 +119,53 @@ public class MainActivity extends AppCompatActivity {
         madeBy.setTypeface(null, Typeface.BOLD_ITALIC);
         madeBy.setText("This app was made by:"+"\n"+"Henrik Wendt");
         madeBy1 = new TextView(this);
-        madeBy1.setTextSize(200);
+        madeBy1.setTextSize(127);
         madeBy1.setText("");
         madeBy.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
         httpString = new EditText(this);
-        httpString.setTextSize(30);
+        httpString.setTextSize(20);
         httpString.setTextColor(Color.WHITE);
-        httpString.setHint("Skriv länken till dit schema här");
+        httpString.setHint("klistra in länken till ditt TimeEdit schema här");
+        httpString.setVisibility(View.INVISIBLE);
 
 
         currentLink = new TextView (this);
         currentLink.setTextSize(20);
         currentLink.setTextColor(Color.WHITE);
+        currentLink.setVisibility(View.INVISIBLE);
 
 
 
 
         save = new Button(this);
-        save.setTextSize(30);
+        save.setTextSize(20);
         save.setBackgroundColor(Color.parseColor("#2196F3"));
-        save.setText("Spara länk till schema");
+        save.setText("Spara schemat");
         save.setTextColor(Color.WHITE);
+        save.setVisibility(View.INVISIBLE);
+
+
+        params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        toggle1 = new ToggleButton(this);
+        toggle1.setText("Visa nuvarande schema");
+        toggle1.setTextOn("Dölj nuvarande schema");
+        toggle1.setTextOff("Visa nuvarande schema");
+        toggle1.setTextSize(20);
+        toggle1.setBackgroundColor(Color.parseColor("#2196F3"));
+        toggle1.setTextColor(Color.WHITE);
+        //toggle1.setLayoutParams(params);
+
+
+        toggle2 = new ToggleButton(this);
+        toggle2.setText("Vill du lägga till ett nytt schema?");
+        toggle2.setTextOn("Minnimera");
+        toggle2.setTextOff("Vill du lägga till ett nytt schema?");
+        toggle2.setTextSize(20);
+        toggle2.setBackgroundColor(Color.parseColor("#2196F3"));
+        toggle2.setTextColor(Color.WHITE);
+
 
 
 
@@ -147,27 +179,70 @@ public class MainActivity extends AppCompatActivity {
         display.addView(info);
         display.addView(info1);
         display.addView(knapp);
+        display.addView(toggle1);
+        display.addView(currentLink);
+        display.addView(toggle2);
         display.addView(httpString);
         display.addView(save);
-        display.addView(currentLink);    
+
         display.addView(madeBy1);
         display.addView(madeBy);
 
 
 
 
+        toggle1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+                if(isChecked) {
+
+                    currentLink.setVisibility(View.VISIBLE);
+
+                }else{
+
+                    currentLink.setVisibility(View.INVISIBLE);
+
+                }
+
+
+
+            }
+        });
+
+
+        toggle2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+                if(isChecked) {
+
+                    httpString.setVisibility(View.VISIBLE);
+                    save.setVisibility(View.VISIBLE);
+
+                }else{
+
+                    httpString.setVisibility(View.INVISIBLE);
+                    save.setVisibility(View.INVISIBLE);
+
+                }
+
+
+            }
+        });
 
 
 
 
 
-
-        //  https://cloud.timeedit.net/liu/web/schema/ri1m7XYQ50ZZ8YQvQc07f866y6Y9957Zo7QQ.html
+        //https://cloud.timeedit.net/liu/web/schema/ri1m7XYQ50ZZ8YQvQc07f866y6Y9957Zo7QQ.html
         //https://cloud.timeedit.net/liu/web/schema/ri1m7XYQ50ZZ8YQvQc07f866y6Y9957Zo7QQ.html  ,https://cloud.timeedit.net/liu/web/schema/ri1Y7X8QQ6fZ66Qv7Q09o785yYY05ZQcZ9f57.html
 
 
         setContentView(display);
         knapp.setOnClickListener(new View.OnClickListener() {
+
+
 
             public void onClick(View v) {
 
@@ -186,9 +261,11 @@ public class MainActivity extends AppCompatActivity {
 
                 knapp.startAnimation(animation);
                 madeBy.startAnimation(animation);
-                httpString.startAnimation(animation);
-                save.startAnimation(animation);
-                currentLink.startAnimation(animation);
+                //httpString.startAnimation(animation);
+                //save.startAnimation(animation);
+                //currentLink.startAnimation(animation);
+                toggle1.startAnimation(animation);
+                toggle2.startAnimation(animation);
 
                 client.newCall(request).enqueue(new Callback() {
 
@@ -251,6 +328,8 @@ public class MainActivity extends AppCompatActivity {
                                 display.removeView(save);
                                 display.removeView(httpString);
                                 display.removeView(currentLink);
+                                display.removeView(toggle1);
+                                display.removeView(toggle2);
 
 
 
