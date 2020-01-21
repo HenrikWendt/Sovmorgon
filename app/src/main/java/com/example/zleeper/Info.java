@@ -2,12 +2,14 @@ package com.example.zleeper;
 
 import android.util.Log;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,18 +34,110 @@ public class Info {
         Format dateFormat = new SimpleDateFormat("EEE");
         String res = dateFormat.format(new Date());
 
+        int timeCutter; //This is the int that says at witch day we should look at.
+        int time;
+        int dayNumber = 0;
+        String dayOfweek = "";
+
+
+
+
+        //Följande tar reda på vilken dag det är så att html koden kan kortas ner enklare utan att man fastnar.
 
         if (res.equals("Sun")){
             weeknumb ++;
 
+            dayNumber = 7;
+
+
+        }else if(res.equals("Mon")){
+
+            dayNumber = 1;
 
         }
-        Log.e("STRING TEST ",""+cut+Integer.toString(weeknumb));
+        else if(res.equals("Tue")){
+
+            dayNumber = 2;
+
+        }else if(res.equals("Wed")){
+
+            dayNumber = 3;
+
+        }else if(res.equals("Thu")){
+
+            dayNumber = 4;
+
+        }else if(res.equals("Fri")){
+
+            dayNumber = 5;
+
+        }else if(res.equals("Sat")){
+
+            dayNumber = 6;
+
+        }
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+        Date currentLocalTime = cal.getTime();
+        DateFormat date = new SimpleDateFormat("HH");
+        time = Integer.parseInt(date.format(currentLocalTime));
+
+
+
+        //Här bestämms från viken tid man vill börja kolla på, på  nästa dag. just nu så börjar appen kolla på nästa dag vid klockan 15.
+        if(time-15>=0) {
+
+            timeCutter =1;
+
+            dayNumber = dayNumber +1;
+
+            if(dayNumber==8) {
+
+                dayNumber = 1;
+
+            }
+            Log.e("Time check","Looking at next day");
+
+        }else {
+
+            timeCutter=0;
+            Log.e("Time check","Looking at the same day");
+
+
+        }
+
+                switch (dayNumber) {
+
+                    case 1:
+                        dayOfweek = "Må ";
+                        break;
+                    case 2:
+                        dayOfweek = "Ti ";
+                        break;
+                    case 3:
+                        dayOfweek = "On ";
+                        break;
+                    case 4:
+                        dayOfweek = "To ";
+                        break;
+                    case 5:
+                        dayOfweek = "Fr ";
+                        break;
+                    case 6:
+                        dayOfweek = "Lö ";
+                        break;
+                    case 7:
+                        dayOfweek = "Sö ";
+                        break;
+
+
+                }
+
+                Log.e("Dagen att kolla på är: ",dayOfweek);
 
         try{
             //+ Integer.toString(weeknumb)
-            Log.e("THE TIME IS ",""+Time(1));
-            String week = text.substring(text.indexOf(Time(1)), text.indexOf(Time(2)));
+            Log.e("THE TIME IS ",""+Time(timeCutter));
+            String week = text.substring(text.indexOf(dayOfweek + Time(timeCutter)), text.indexOf(Time(timeCutter+1)));
             Log.e("THE TEXT IS ",""+week);
             String day = week.substring(week.indexOf(start)+1, week.indexOf(end));
            String[] lines = day.split("\\r");

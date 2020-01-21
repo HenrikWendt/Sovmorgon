@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.TimeZone;
+
 public class Calculator {
 
 
@@ -18,12 +20,12 @@ public class Calculator {
         String one = "10:00</td>";
         String two = "12:00</td>";
         String three = "15:00</td>";
-        String foure = "17:00</td>";
+        String four = "17:00</td>";
         ArrayList<String> strings = new ArrayList<String>(); //Arraylist of all the ending segments to cut too. Afterwards its set with the cutted segment.
         strings.add(one);
         strings.add(two);
         strings.add(three);
-        strings.add(foure);
+        strings.add(four);
         ArrayList<Integer> numbs = new ArrayList<Integer>(); // Arraylist of the lengths of all the differnet "cuts"
         numbs.add(0);
         numbs.add(0);
@@ -34,7 +36,31 @@ public class Calculator {
         for(int i = 0; i < strings.size(); i++) {
             try{
 
-                String requiredString = temp.substring(temp.indexOf(Time(1)) + 1, temp.indexOf(strings.get(i)));
+                int timeCutter; //This is the int that says at witch day we should look at.
+                int time;
+
+
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+                Date currentLocalTime = cal.getTime();
+                DateFormat date = new SimpleDateFormat("HH");
+                time = Integer.parseInt(date.format(currentLocalTime));
+                if(time-12>=0) {
+
+                    timeCutter =1;
+                    Log.e("Time check","Looking at next day");
+
+                }else {
+
+                    timeCutter=0;
+                    Log.e("Time check","Looking at the same day");
+                }
+
+
+
+
+
+
+                String requiredString = temp.substring(temp.indexOf(Time(timeCutter)) + 1, temp.indexOf(strings.get(i)));
                 int temp1;
                 temp1 = requiredString.length();
                 numbs.set(i,temp1);
@@ -94,8 +120,8 @@ public class Calculator {
            EndInfo.add(EndString);
            EndInfo.add("08:15");
 
-            EndInfo = Size.SizeFix(EndInfo);
-           EndInfo.set(EndInfo.size(),"7");
+           EndInfo = Size.SizeFix(EndInfo);
+           EndInfo.add(EndInfo.size(),"7");
 
            Log.e("EndINFO ","LOOK  "+EndInfo);
 
@@ -118,7 +144,7 @@ public class Calculator {
             EndInfo.add("13:15");
 
             EndInfo = Size.SizeFix(EndInfo);
-            EndInfo.set(EndInfo.size(),"12");
+            EndInfo.add(EndInfo.size(),"12");
 
         }else if(numbs.get(0) == l4) {
             EndString="Ja du har sovmorgon!";
@@ -128,7 +154,8 @@ public class Calculator {
             EndInfo.add("15:15");
 
             EndInfo = Size.SizeFix(EndInfo);
-            EndInfo.set(EndInfo.size(),"14");
+            //ändrade från set till add på alla dessa kan göra kaoz
+            EndInfo.add(EndInfo.size(),"14");
 
 
 

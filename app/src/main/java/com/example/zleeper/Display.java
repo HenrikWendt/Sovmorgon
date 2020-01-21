@@ -3,12 +3,14 @@ package com.example.zleeper;
 import android.content.Context;
 import android.graphics.Color;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class Display extends LinearLayout{
 
 
 
     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+
 
 
     public Display(Context context) {

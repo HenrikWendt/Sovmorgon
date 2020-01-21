@@ -45,6 +45,9 @@ public class SizeFix {
 
 
         }
+
+        Log.e("CONTENT after : ", "" + strings);
+
         return strings;
     }
 

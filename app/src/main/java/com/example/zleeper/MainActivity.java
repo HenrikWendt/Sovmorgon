@@ -3,26 +3,41 @@ package com.example.zleeper;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.provider.AlarmClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Size;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import static android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM;
+import static android.widget.RelativeLayout.CENTER_VERTICAL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     TextView text2;
     TextView info;
     TextView info1;
+    TextView madeBy;
+    TextView madeBy1;
     ImageView pic;
     Button alarm;
     Display display;
@@ -38,9 +55,16 @@ public class MainActivity extends AppCompatActivity {
     WebView website;
     String sal;
     WebSettings webSettings;
+    String URL;
+    TextView currentLink;
+
+
+    EditText httpString;
+    Button save;
+
     int test;
 
-
+    private static final String FILE_NAME = "httpString.txt";
 
 
     @Override
@@ -82,7 +106,40 @@ public class MainActivity extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
 
 
+        madeBy = new TextView(this);
+        madeBy.setTextColor(Color.WHITE);
+        madeBy.setTextSize(20);
+        madeBy.setTypeface(null, Typeface.BOLD_ITALIC);
+        madeBy.setText("This app was made by:"+"\n"+"Henrik Wendt");
+        madeBy1 = new TextView(this);
+        madeBy1.setTextSize(200);
+        madeBy1.setText("");
+        madeBy.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
+        httpString = new EditText(this);
+        httpString.setTextSize(30);
+        httpString.setTextColor(Color.WHITE);
+        httpString.setHint("Skriv länken till dit schema här");
+
+
+        currentLink = new TextView (this);
+        currentLink.setTextSize(20);
+        currentLink.setTextColor(Color.WHITE);
+
+
+
+
+        save = new Button(this);
+        save.setTextSize(30);
+        save.setBackgroundColor(Color.parseColor("#2196F3"));
+        save.setText("Spara länk till schema");
+        save.setTextColor(Color.WHITE);
+
+
+
+           //Loading the current link to user
+          load();
+        
 
         display.addView(pic);
         display.addView(text1);
@@ -90,29 +147,48 @@ public class MainActivity extends AppCompatActivity {
         display.addView(info);
         display.addView(info1);
         display.addView(knapp);
+        display.addView(httpString);
+        display.addView(save);
+        display.addView(currentLink);    
+        display.addView(madeBy1);
+        display.addView(madeBy);
 
 
 
 
 
-        final OkHttpClient client = new OkHttpClient();
-        String URL = "https://cloud.timeedit.net/liu/web/schema/ri15704Q057Z55Q696655750yZ096W7070Y68Q0Q7.html";
-        //https://cloud.timeedit.net/liu/web/schema/ri1m7XYQ50ZZ5YQvQQ077876y6Y9957.html
+
+
+
+
+
         //  https://cloud.timeedit.net/liu/web/schema/ri1m7XYQ50ZZ8YQvQc07f866y6Y9957Zo7QQ.html
         //https://cloud.timeedit.net/liu/web/schema/ri1m7XYQ50ZZ8YQvQc07f866y6Y9957Zo7QQ.html  ,https://cloud.timeedit.net/liu/web/schema/ri1Y7X8QQ6fZ66Qv7Q09o785yYY05ZQcZ9f57.html
 
-        final Request request = new Request.Builder()
-                .url(URL)
-                .build();
 
         setContentView(display);
         knapp.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
 
+
+                load();
+
+
+                try {
+                         final OkHttpClient client = new OkHttpClient();
+                         final Request request = new Request.Builder()
+                            .url(URL)
+                            .build();
+
+
                 Animation animation= AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadeout);
 
                 knapp.startAnimation(animation);
+                madeBy.startAnimation(animation);
+                httpString.startAnimation(animation);
+                save.startAnimation(animation);
+                currentLink.startAnimation(animation);
 
                 client.newCall(request).enqueue(new Callback() {
 
@@ -144,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     Log.e("BASGRUPP KOLL ",""+strings.get(4));
 
-                                    strings = check.BasGrupp(strings);
+                                   // strings = check.BasGrupp(strings);
 
                                     Log.e("INFO","INFO  "+strings);
 
@@ -152,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     setAlarm(test);
                                     sal = strings.get(1);
+                                    Log.e("SALEN ÄR FÖLJANDE: ", sal);
                                      website.loadUrl("https://old.liu.se/karta?l=sv&px_location="+sal);  
                                     Animation animation1 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadein);
 
@@ -169,6 +246,11 @@ public class MainActivity extends AppCompatActivity {
                                 info1.startAnimation(animation1);
 
                                 display.removeView(knapp);
+                                display.removeView(madeBy);
+                                display.removeView(madeBy1);
+                                display.removeView(save);
+                                display.removeView(httpString);
+                                display.removeView(currentLink);
 
 
 
@@ -182,7 +264,26 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 });
+
+
+                }catch (IllegalArgumentException i) {
+                            Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.bounce);
+                            httpString.setAnimation(animation);
+                            knapp.setAnimation(animation);
+                            save.setAnimation(animation);
+                    Toast.makeText(MainActivity.this, "Felaktig länk, testa igen.", Toast.LENGTH_LONG).show();
+
+                  
+                  
+                  
+
+                }                                       
+
+
             }
+
+
+
         });
 
       mapButton.setOnClickListener(new View.OnClickListener() {
@@ -190,15 +291,24 @@ public class MainActivity extends AppCompatActivity {
           public void onClick(View view) {
 
 
-              Log.e("SAL", sal);
 
-            Animation animation= AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadeout);
-            //mapButton.startAnimation(animation);
+
+              Animation animation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.bounce);
+           // mapButton.startAnimation(animation);
 
             display.removeView(text1);
             display.removeView(mapButton);
-           // display.startAnimation(animation);
            display.addView(website);
+
+          }
+      });
+
+
+      save.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+
+              save();
 
           }
       });
@@ -237,6 +347,81 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+        }
+
+
+    }
+
+    public void save() {
+
+        String text = httpString.getText().toString();
+        FileOutputStream fos = null;
+
+
+        try {
+            fos = openFileOutput(FILE_NAME,MODE_PRIVATE);
+            fos.write(text.getBytes());
+
+            httpString.getText().clear();
+           load();
+            Toast.makeText(this,"Saved to " + getFilesDir() + "/" + FILE_NAME, Toast.LENGTH_LONG).show();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if (fos !=null) {
+
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void load()  {
+
+        FileInputStream fis = null;
+
+        try {
+            fis = openFileInput(FILE_NAME);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String text;
+
+            while ((text = br.readLine()) != null) {
+
+                sb.append(text).append("\n");
+                
+
+            }
+
+
+
+
+                 URL =(sb.toString());
+                 currentLink.setText("Ditt nuvarande schema är: "+sb.toString());
+
+
+
+            
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
 
 
