@@ -2,6 +2,7 @@ package com.example.zleeper;
 
 import android.util.Log;
 import java.text.DateFormat;
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +16,17 @@ public class Calculator {
     public ArrayList<String> Calculate (String str){
         String temp;
         temp = str;
+
+        String EndString;
+        ArrayList<String> EndInfo = new ArrayList<String>();
+
+        Info info = new Info();
+        SizeFix Size = new SizeFix();
+
+        int l1;
+        int l2;
+        int l3;
+        int l4;
 
 
         String one = "10:00</td>";
@@ -33,53 +45,72 @@ public class Calculator {
         numbs.add(0);
 
 
-        for(int i = 0; i < strings.size(); i++) {
-            try{
-
-                int timeCutter; //This is the int that says at witch day we should look at.
-                int time;
-
-
-                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
-                Date currentLocalTime = cal.getTime();
-                DateFormat date = new SimpleDateFormat("HH");
-                time = Integer.parseInt(date.format(currentLocalTime));
-                if(time-12>=0) {
-
-                    timeCutter =1;
-                    Log.e("Time check","Looking at next day");
-
-                }else {
-
-                    timeCutter=0;
-                    Log.e("Time check","Looking at the same day");
-                }
 
 
 
+        int timeCutter; //This is the int that says at witch day we should look at.
+        int time;
 
 
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+        Date currentLocalTime = cal.getTime();
+        DateFormat date = new SimpleDateFormat("HH");
+        time = Integer.parseInt(date.format(currentLocalTime));
+        if(time-15>=0) {
 
-                String requiredString = temp.substring(temp.indexOf(Time(timeCutter)) + 1, temp.indexOf(strings.get(i)));
-                int temp1;
-                temp1 = requiredString.length();
-                numbs.set(i,temp1);
-                strings.set(i,requiredString);
-            }catch (Exception e) {
-                numbs.set(i,999999999);
-            }
+            timeCutter =1;
+
+
+        }else {
+
+            timeCutter=0;
+
         }
-        int l1 = numbs.get(0);
-        int l2 = numbs.get(1);
-        int l3 = numbs.get(2);
-        int l4 = numbs.get(3);
 
-        Collections.sort(numbs);
 
-        String EndString = "";
-        ArrayList<String> EndInfo = new ArrayList<String>();
-        Info info = new Info();
-        SizeFix Size = new SizeFix();
+        Log.e("DAGEN SOM DEN KOLLAR PÅ ÄR",Day());
+
+
+        if(temp.contains(Day()+(Time(1)))) {
+
+
+            for (int i = 0; i < strings.size(); i++) {
+                try {
+
+
+                    String requiredString = temp.substring(temp.indexOf(Time(timeCutter)) + 1, temp.indexOf(strings.get(i)));
+                    int temp1;
+                    temp1 = requiredString.length();
+                    numbs.set(i, temp1);
+                    strings.set(i, requiredString);
+                } catch (Exception e) {
+                    numbs.set(i, 999999999);
+                }
+            }
+                l1 = numbs.get(0);
+                l2 = numbs.get(1);
+                l3 = numbs.get(2);
+                l4 = numbs.get(3);
+
+            Collections.sort(numbs);
+
+             EndString = "";
+
+        }else {
+
+            EndString = "";
+
+            l1=999999999;
+            l2=999999999;
+            l3=999999999;
+            l4=999999999;
+
+            numbs.set(0,999999999);
+
+
+            Log.e("Schemat är tomt för imorogn","Ska inte göra något mer");
+
+        }
 
         if(numbs.get(0)==999999999){
 
@@ -127,6 +158,9 @@ public class Calculator {
 
         }else if (numbs.get(0) == l2){
             EndString="Ja du har sovmorgon!";
+
+
+            Log.e("Current stirng is ",temp);
 
             EndInfo = info.Info(temp,">10:15 - 12:00</td>","        </tr>");
             EndInfo.add(EndString);
@@ -188,4 +222,109 @@ public class Calculator {
 
         return tomorrowAsString;
     }
+
+    public String Day() {
+
+        Format dateFormat = new SimpleDateFormat("EEE");
+        String res = dateFormat.format(new Date());
+        int dayNumber = 0;
+        String dayOfweek = "";
+
+
+
+        if (res.equals("Sun")){
+
+            dayNumber = 7;
+
+
+        }else if(res.equals("Mon")){
+
+            dayNumber = 1;
+
+        }
+        else if(res.equals("Tue")){
+
+            dayNumber = 2;
+
+        }else if(res.equals("Wed")){
+
+            dayNumber = 3;
+
+        }else if(res.equals("Thu")){
+
+            dayNumber = 4;
+
+        }else if(res.equals("Fri")){
+
+            dayNumber = 5;
+
+        }else if(res.equals("Sat")){
+
+            dayNumber = 6;
+
+        }
+        //This is the int that says at witch day we should look at.
+        int time;
+
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+        Date currentLocalTime = cal.getTime();
+        DateFormat date = new SimpleDateFormat("HH");
+        time = Integer.parseInt(date.format(currentLocalTime));
+        //Här bestämms från viken tid man vill börja kolla på, på  nästa dag. just nu så börjar appen kolla på nästa dag vid klockan 15.
+
+        if(time-15>=0) {
+
+
+
+            dayNumber = dayNumber +1;
+
+            if(dayNumber==8) {
+
+                dayNumber = 1;
+
+            }
+            Log.e("Time check","Looking at next day");
+
+        }else {
+
+
+            Log.e("Time check","Looking at the same day");
+
+
+        }
+
+
+        switch (dayNumber) {
+
+            case 1:
+                dayOfweek = "Må ";
+                break;
+            case 2:
+                dayOfweek = "Ti ";
+                break;
+            case 3:
+                dayOfweek = "On ";
+                break;
+            case 4:
+                dayOfweek = "To ";
+                break;
+            case 5:
+                dayOfweek = "Fr ";
+                break;
+            case 6:
+                dayOfweek = "Lö ";
+                break;
+            case 7:
+                dayOfweek = "Sö ";
+                break;
+
+
+        }
+
+
+
+        return dayOfweek;
+    }
+
+
 }

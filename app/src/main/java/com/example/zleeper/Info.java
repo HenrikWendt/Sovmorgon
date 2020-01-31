@@ -80,9 +80,6 @@ public class Info {
         Date currentLocalTime = cal.getTime();
         DateFormat date = new SimpleDateFormat("HH");
         time = Integer.parseInt(date.format(currentLocalTime));
-
-
-
         //Här bestämms från viken tid man vill börja kolla på, på  nästa dag. just nu så börjar appen kolla på nästa dag vid klockan 15.
         if(time-15>=0) {
 
@@ -134,54 +131,58 @@ public class Info {
 
                 Log.e("Dagen att kolla på är: ",dayOfweek);
 
-        try{
-            //+ Integer.toString(weeknumb)
-            Log.e("THE TIME IS ",""+Time(timeCutter));
-            String week = text.substring(text.indexOf(dayOfweek + Time(timeCutter)), text.indexOf(Time(timeCutter+1)));
-            Log.e("THE TEXT IS ",""+week);
-            String day = week.substring(week.indexOf(start)+1, week.indexOf(end));
-           String[] lines = day.split("\\r");
 
 
+        for(int i = 1; i <=3; i ++) {  //  If there is something in the schedule but nothing the next day or the day after, we need to try to catch the closest one. Therefore the loop.
+            try {
+                //+ Integer.toString(weeknumb)
+                Log.e("THE TIME IS ", "" + Time(timeCutter));
+                String week = text.substring(text.indexOf(dayOfweek + Time(timeCutter)), text.indexOf(Time(timeCutter + i)));
+                Log.e("THE TEXT IS ", "" + week);
+                String day = week.substring(week.indexOf(start) + 1, week.indexOf(end));
+                String[] lines = day.split("\\r");
 
-            StringBuilder sb= new StringBuilder();
 
-            for(int i = 0; i <4; i++) {
+                StringBuilder sb = new StringBuilder();
 
-                sb.append(lines[i]);
+                for (int x = 0; x < 4; i++) {
 
-            }
+                    sb.append(lines[i]);
+
+                }
                 sb.append(lines[6]);
 
-          // Log.e("JAAAAA!!!!","    "+day);
+                // Log.e("JAAAAA!!!!","    "+day);
 
-            Matcher matcher = pattern2.matcher(sb.toString());
-            while (matcher.find()) {
-                Log.e("KOLLA!!","   "+matcher.group(1));
+                Matcher matcher = pattern2.matcher(sb.toString());
+                while (matcher.find()) {
+                    Log.e("KOLLA!!", "   " + matcher.group(1));
 
-                compleat.add(matcher.group(1));
+                    compleat.add(matcher.group(1));
+                }
+
+                break;
+
+            } catch (Exception e) {
+
+                //for (int z = 0; z < 7; i++) {
+
+                 //   compleat.add("ERROR");
+               // }
+
+
+                Log.e("FUNKADE EJ", "</3");
+
             }
-
-
-
-        }catch (Exception e) {
-
-            for(int i=0; i<7; i++) {
-
-                compleat.add("ERROR");
-            }
-
-
-
-            Log.e("FUNKADE EJ","</3");
 
         }
-
-
 
         Log.e("KOLLA!!","   "+compleat);
         return compleat;
     }
+
+
+
 
 
     public String Time(int i) {

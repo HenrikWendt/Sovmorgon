@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
                                     int length = strings.size(); //vill hämta det som är på plats length-1 och length-1-1 ur Arrayen
 
 
-                                    Log.e("BASGRUPP KOLL ",""+strings.get(4));
+                                    //Log.e("BASGRUPP KOLL ",""+strings.get(4));
 
                                    // strings = check.BasGrupp(strings);
 
