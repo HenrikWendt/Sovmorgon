@@ -58,7 +58,7 @@ public class Calculator {
         Date currentLocalTime = cal.getTime();
         DateFormat date = new SimpleDateFormat("HH");
         time = Integer.parseInt(date.format(currentLocalTime));
-       if(time-15>=0) {
+       if(time-17>=0) {
 
             timeCutter =1;
 
@@ -70,7 +70,7 @@ public class Calculator {
         }
 
 
-        Log.e("DAGEN SOM DEN KOLLAR PÅ ÄR.........",Day() + "Timecutter is: "+timeCutter);
+        Log.e("(Calculator) DAGEN SOM DEN KOLLAR PÅ ÄR :",Day() + "Timecutter is: "+timeCutter);
 
 
         if(temp.contains(Day()+(Time(1)))) {
@@ -79,9 +79,10 @@ public class Calculator {
             for (int i = 0; i < strings.size(); i++) {
                 try {
 
+                    String textCutter = strings.get(i);
 
-
-                    String requiredString = temp.substring(temp.indexOf(Time(timeCutter)) + 1, temp.indexOf(strings.get(i)));
+                    //String requiredString = temp.substring(temp.indexOf(Time(1)) + 1, temp.indexOf(strings.get(i)));
+                    String requiredString = temp.substring(temp.indexOf(Time(timeCutter)) + 1, temp.indexOf(textCutter));
                     int temp1;
                     temp1 = requiredString.length();
                     numbs.set(i, temp1);
@@ -111,9 +112,12 @@ public class Calculator {
             numbs.set(0,999999999);
 
 
-            Log.e("Schemat är tomt för imorogn","Ska inte göra något mer");
+            Log.e("(Calculator) Schemat är tomt för imorogn","Ska inte göra något mer");
 
         }
+
+
+        Log.e("(Calculator) TESTAR","TESTAR "+numbs.get(0)+"----"+numbs.get(1)+"----"+numbs.get(2)+"----"+numbs.get(3)+"----");
 
         if(numbs.get(0)==999999999){
 
@@ -195,13 +199,7 @@ public class Calculator {
             EndInfo.add(EndInfo.size(),"14");
 
 
-
         }
-
-        Log.e("TESTAR","TESTAR "+numbs.get(0)+"----"+numbs.get(1)+"----"+numbs.get(2)+"----"+numbs.get(3)+"----");
-        //Log.e("INFO","LOOK HERE "+strings.get(0));
-
-
 
 
         return EndInfo;
@@ -286,12 +284,12 @@ public class Calculator {
                 dayNumber = 1;
 
             }
-            Log.e("Time check","Looking at next day");
+            Log.e("(Calculator) Time check","Looking at next day");
 
         }else {
 
 
-            Log.e("Time check","Looking at the same day");
+            Log.e("(Calculator) Time check","Looking at the same day");
 
 
         }

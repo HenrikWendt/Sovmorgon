@@ -38,11 +38,11 @@ public class Info {
         int time;
         int dayNumber = 0;
         String dayOfweek = "";
+        boolean errorCheck = false; // Används för att avgöra om koden lyckas hämta information från schemat.
 
 
 
-
-        //Följande tar reda på vilken dag det är så att html koden kan kortas ner enklare utan att man fastnar.
+        //Följande tar reda på vilken dag det är så att html koden kan kortasner enklare utan att man fastnar.
 
         if (res.equals("Sun")){
             weeknumb ++;
@@ -80,8 +80,8 @@ public class Info {
         Date currentLocalTime = cal.getTime();
         DateFormat date = new SimpleDateFormat("HH");
         time = Integer.parseInt(date.format(currentLocalTime));
-        //Här bestämms från viken tid man vill börja kolla på, på  nästa dag. just nu så börjar appen kolla på nästa dag vid klockan 15.
-        if(time-15>=0) {
+        //Här bestämms från viken tid man vill börja kolla på  nästa dag. just nu så börjar appen kolla på nästa dag vid klockan 17.
+        if(time-17>=0) {
 
             timeCutter =1;
 
@@ -92,12 +92,12 @@ public class Info {
                 dayNumber = 1;
 
             }
-            Log.e("Time check","Looking at next day");
+            Log.e("(Info) Time check","Looking at next day");
 
         }else {
 
             timeCutter=0;
-            Log.e("Time check","Looking at the same day");
+            Log.e("(Info) Time check","Looking at the same day");
 
 
         }
@@ -129,62 +129,66 @@ public class Info {
 
                 }
 
-                Log.e("Dagen att kolla på är: ",dayOfweek);
-
+        Log.e("(Info) Dagen är ", "" +dayOfweek+ Time(timeCutter));
+        Log.e("(Info) Dagen att kapa vid är ", "" + Time(timeCutter+1));
 
 
         for(int i = 1; i <=3; i ++) {  //  If there is something in the schedule but nothing the next day or the day after, we need to try to catch the closest one. Therefore the loop.
             try {
-                //+ Integer.toString(weeknumb)
-                Log.e("THE TIME IS ", "" + Time(timeCutter));
-                Log.e("THE TIME IS TO CUT AT IS ", "" + Time(timeCutter+1));
-                //Log.e("INFO IS ",text);
-                String week = text.substring(text.indexOf(dayOfweek + Time(timeCutter)), text.indexOf("Fr " + Time(timeCutter + i)));
-                //Log.e("THE TEXT IS ", "" + week);
+
+                String week = text.substring(text.indexOf(dayOfweek + Time(timeCutter)), text.indexOf(Time( timeCutter + i)));
+              //  Log.e("THE TEXT IS ", "" + week);
                 String day = week.substring(week.indexOf(start) + 1, week.indexOf(end));
+               //Log.e("THE TEXT IS ", day);
                 String[] lines = day.split("\\r");
 
 
                 StringBuilder sb = new StringBuilder();
 
-                for (int x = 0; x < 4; i++) {
+                for (int x = 0; x < 4; x++) {
 
-                    sb.append(lines[i]);
+                    sb.append(lines[x]);
 
                 }
                 sb.append(lines[6]);
 
-                // Log.e("JAAAAA!!!!","    "+day);
+
 
                 Matcher matcher = pattern2.matcher(sb.toString());
                 while (matcher.find()) {
-                    Log.e("KOLLA!!", "   " + matcher.group(1));
+
 
                     compleat.add(matcher.group(1));
                 }
 
+                errorCheck = true; //Det gick att hämta info ur koden.
                 break;
 
             } catch (Exception e) {
 
-                //for (int z = 0; z < 7; i++) {
 
-                 //   compleat.add("ERROR");
-               // }
-
-
-                Log.e("FUNKADE EJ", "</3");
+                Log.e("(Info)  Lyckades inte kapa på den ", i +"a dagen");
 
             }
 
         }
 
-        Log.e("KOLLA!!","   "+compleat);
+        Log.e("(Info)  Info som hittats från schemat är","   "+compleat);
+
+        if(!errorCheck) {
+            Log.e("(Info)  Något gick fel med hämtandet av info från schemat","</3");
+
+            for (int z = 0; z < 4; z++) {
+
+               compleat.add("ERROR");
+              }
+
+
+        }
+
+
         return compleat;
     }
-
-
-
 
 
     public String Time(int i) {

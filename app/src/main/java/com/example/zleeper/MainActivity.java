@@ -166,9 +166,6 @@ public class MainActivity extends AppCompatActivity {
         toggle2.setBackgroundColor(Color.parseColor("#2196F3"));
         toggle2.setTextColor(Color.WHITE);
 
-
-
-
            //Loading the current link to user
           load();
         
@@ -205,8 +202,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-
-
             }
         });
 
@@ -230,9 +225,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
 
 
         //https://cloud.timeedit.net/liu/web/schema/ri1m7XYQ50ZZ8YQvQc07f866y6Y9957Zo7QQ.html
@@ -289,25 +281,19 @@ public class MainActivity extends AppCompatActivity {
                                     Calculator calc = new Calculator();
                                     BasGrupp check = new BasGrupp();
 
-
-
                                 strings = calc.Calculate(myResponse);
 
 
                                     int length = strings.size(); //vill hämta det som är på plats length-1 och length-1-1 ur Arrayen
 
 
-                                    //Log.e("BASGRUPP KOLL ",""+strings.get(4));
-
-                                   // strings = check.BasGrupp(strings);
-
-                                    Log.e("INFO","INFO  "+strings);
+                                    Log.e("(MainActivity) INFO","INFO  "+strings);
 
                                     test = Integer.parseInt(strings.get(strings.size()-1));
 
                                     setAlarm(test);
                                     sal = strings.get(1);
-                                    Log.e("SALEN ÄR FÖLJANDE: ", sal);
+
                                      website.loadUrl("https://old.liu.se/karta?l=sv&px_location="+sal);  
                                     Animation animation1 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.fadein);
 
@@ -334,10 +320,6 @@ public class MainActivity extends AppCompatActivity {
                                 display.removeView(toggle2);
 
 
-
-
-
-
                                 }
 
                             });
@@ -353,10 +335,6 @@ public class MainActivity extends AppCompatActivity {
                             knapp.setAnimation(animation);
                             save.setAnimation(animation);
                     Toast.makeText(MainActivity.this, "Felaktig länk, testa igen.", Toast.LENGTH_LONG).show();
-
-                  
-                  
-                  
 
                 }                                       
 
@@ -394,7 +372,6 @@ public class MainActivity extends AppCompatActivity {
           }
       });
 
-
     }
     public void setAlarm (int i) {
 
@@ -429,7 +406,6 @@ public class MainActivity extends AppCompatActivity {
             });
 
         }
-
 
     }
 
@@ -480,14 +456,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-
-
-
                  URL =(sb.toString());
                  currentLink.setText("Ditt nuvarande schema är: "+sb.toString());
-
-
-
             
         } catch (FileNotFoundException e) {
             e.printStackTrace();

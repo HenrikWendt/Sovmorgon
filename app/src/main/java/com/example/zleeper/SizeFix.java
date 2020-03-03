@@ -17,8 +17,8 @@ public class SizeFix {
 
         String temp;
 
-        Log.e("SIZE B4", "THIS IS THE SIZE : " + length);
-        Log.e("CONTENT: ", "" + strings);
+        Log.e("(SizeFix) SIZE B4", "THIS IS THE SIZE : " + length);
+        Log.e("(SizeFix) CONTENT: ", "" + strings);
 
         if (sizeCheck(length) > 0) {
             StringBuilder sb = new StringBuilder();
@@ -46,7 +46,7 @@ public class SizeFix {
 
         }
 
-        Log.e("CONTENT after : ", "" + strings);
+        Log.e("(SizeFix) CONTENT after : ", "" + strings);
 
         return strings;
     }
