@@ -17,6 +17,8 @@ public class Calculator {
         String temp;
         temp = str;
 
+
+
         String EndString;
         ArrayList<String> EndInfo = new ArrayList<String>();
 
@@ -28,7 +30,7 @@ public class Calculator {
         int l3;
         int l4;
 
-
+        //Detta är ingen toppenlösning egentligen... Om det kommer något i schemat som inte är tiderna under så kommer den att säga fel...
         String one = "10:00</td>";
         String two = "12:00</td>";
         String three = "15:00</td>";
@@ -56,7 +58,7 @@ public class Calculator {
         Date currentLocalTime = cal.getTime();
         DateFormat date = new SimpleDateFormat("HH");
         time = Integer.parseInt(date.format(currentLocalTime));
-        if(time-15>=0) {
+       if(time-15>=0) {
 
             timeCutter =1;
 
@@ -68,7 +70,7 @@ public class Calculator {
         }
 
 
-        Log.e("DAGEN SOM DEN KOLLAR PÅ ÄR",Day());
+        Log.e("DAGEN SOM DEN KOLLAR PÅ ÄR.........",Day() + "Timecutter is: "+timeCutter);
 
 
         if(temp.contains(Day()+(Time(1)))) {
@@ -76,6 +78,7 @@ public class Calculator {
 
             for (int i = 0; i < strings.size(); i++) {
                 try {
+
 
 
                     String requiredString = temp.substring(temp.indexOf(Time(timeCutter)) + 1, temp.indexOf(strings.get(i)));
@@ -160,7 +163,7 @@ public class Calculator {
             EndString="Ja du har sovmorgon!";
 
 
-            Log.e("Current stirng is ",temp);
+            //Log.e("Current stirng is ",temp);
 
             EndInfo = info.Info(temp,">10:15 - 12:00</td>","        </tr>");
             EndInfo.add(EndString);

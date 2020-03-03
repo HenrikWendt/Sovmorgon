@@ -289,6 +289,8 @@ public class MainActivity extends AppCompatActivity {
                                     Calculator calc = new Calculator();
                                     BasGrupp check = new BasGrupp();
 
+
+
                                 strings = calc.Calculate(myResponse);
 
 

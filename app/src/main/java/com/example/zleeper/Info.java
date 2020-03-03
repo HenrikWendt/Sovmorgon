@@ -137,8 +137,10 @@ public class Info {
             try {
                 //+ Integer.toString(weeknumb)
                 Log.e("THE TIME IS ", "" + Time(timeCutter));
-                String week = text.substring(text.indexOf(dayOfweek + Time(timeCutter)), text.indexOf(Time(timeCutter + i)));
-                Log.e("THE TEXT IS ", "" + week);
+                Log.e("THE TIME IS TO CUT AT IS ", "" + Time(timeCutter+1));
+                //Log.e("INFO IS ",text);
+                String week = text.substring(text.indexOf(dayOfweek + Time(timeCutter)), text.indexOf("Fr " + Time(timeCutter + i)));
+                //Log.e("THE TEXT IS ", "" + week);
                 String day = week.substring(week.indexOf(start) + 1, week.indexOf(end));
                 String[] lines = day.split("\\r");
 
