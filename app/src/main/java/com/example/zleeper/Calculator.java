@@ -73,7 +73,7 @@ public class Calculator {
         Log.e("(Calculator) DAGEN SOM DEN KOLLAR PÅ ÄR :",Day() + "Timecutter is: "+timeCutter);
 
 
-        if(temp.contains(Day()+(Time(1)))) {
+        if(temp.contains(Day()+(Time(timeCutter)))) {
 
 
             for (int i = 0; i < strings.size(); i++) {
