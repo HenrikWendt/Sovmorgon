@@ -133,11 +133,11 @@ public class Info {
         Log.e("(Info) Dagen att kapa vid är ", "" + Time(timeCutter+1));
 
 
-        for(int i = 1; i <=3; i ++) {  //  If there is something in the schedule but nothing the next day or the day after, we need to try to catch the closest one. Therefore the loop.
+        for(int i = 1; i <=5; i ++) {  //  If there is something in the schedule but nothing the next day or the day after, we need to try to catch the closest one. Therefore the loop.
             try {
 
                 String week = text.substring(text.indexOf(dayOfweek + Time(timeCutter)), text.indexOf(Time( timeCutter + i)));
-              //  Log.e("THE TEXT IS ", "" + week);
+              // Log.e("THE TEXT IS ", "" + week);
                 String day = week.substring(week.indexOf(start) + 1, week.indexOf(end));
                //Log.e("THE TEXT IS ", day);
                 String[] lines = day.split("\\r");
